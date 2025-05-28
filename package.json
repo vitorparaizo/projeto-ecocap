@@ -1,0 +1,26 @@
+{
+  "name": "projeto-ecocap-1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitorparaizo/projeto-ecocap.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vitorparaizo/projeto-ecocap/issues"
+  },
+  "homepage": "https://github.com/vitorparaizo/projeto-ecocap#readme",
+  "description": "",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.8",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  },
+  "type": "module"
+}
