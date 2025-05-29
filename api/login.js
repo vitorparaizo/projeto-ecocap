@@ -1,8 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-export default async function handler(req, res) {
+export default async function login(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -22,5 +24,5 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: error.message });
   }
 
-  res.status(200).json({ message: 'Login successful', session: data.session, user: data.user });
+  return res.status(200).json({ message: 'Login successful', session: data.session, user: data.user });
 }

@@ -1,66 +1,26 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="login-style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login de Usuário</title>
+  <link rel="stylesheet" href="login-style.css" />
 </head>
 <body>
-    <div class="login-container">
-        <h1>Bem-vindo de volta!</h1>
-        <p class="subtitle">Faça seu login</p>
-        
-        <form class="login-form">
-  <div class="input-group">
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+  <div class="container">
+    <form class="login-form">
+      <h2>Entrar</h2>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="seuemail@exemplo.com" />
+
+      <label for="password">Senha</label>
+      <input type="password" id="password" name="password" required placeholder="Digite sua senha" />
+
+      <button type="submit">Entrar</button>
+    </form>
   </div>
 
-  <div class="input-group">
-    <label for="password">Senha</label>
-    <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
-  </div>
-
-  <button type="submit" class="login-button">Entrar</button>
-</form>
-
-<script>
-  const form = document.querySelector('.login-form');
-
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        alert('Erro: ' + (result.error || 'Falha no login'));
-        return;
-      }
-
-      alert('Login realizado com sucesso!');
-      console.log(result);
-
-      // Exemplo: Redirecionar após login
-      // window.location.href = '/dashboard.html';
-
-    } catch (err) {
-      alert('Erro: ' + err.message);
-    }
-  });
-</script>
-
-    </div>
+  <script src="login-client.js"></script>
 </body>
 </html>
