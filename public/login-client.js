@@ -17,8 +17,7 @@ document.querySelector('.login-form').addEventListener('submit', async function 
 
     if (response.ok) {
       alert('Login realizado com sucesso!');
-      // Redirecionar para a página principal após o login
-      window.location.href = '/';
+      window.location.href = 'mapa.html';
     } else {
       alert('Erro: ' + result.error);
     }
