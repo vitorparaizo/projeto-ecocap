@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import register from './api/register.js';
 import login from './api/login.js';
+import agendar from './api/agendar.js'; 
 
 dotenv.config();
 
@@ -12,11 +13,12 @@ app.use(express.static(path.join(process.cwd(), 'public')));
 
 app.post('/api/register', register);
 app.post('/api/login', login);
+app.post('/api/agendar', agendar); 
 
-// Opcional: rota raiz para carregar um HTML
+
 app.get('/', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+  res.sendFile(path.join(process.cwd(), 'public', 'telaLogin.html'));
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));

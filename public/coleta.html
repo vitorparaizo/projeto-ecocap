@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recicla+ - Agendar Coleta</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/coleta-style.css">
+  <style>
+    .material-item.selected {
+      background-color: #e8f5e9;
+      border: 2px solid #2e7d32;
+      transform: scale(1.05);
+    }
+    .material-item.selected .material-icon {
+      color: #2e7d32;
+    }
+    .material-item.selected .material-name {
+      font-weight: bold;
+    }
+    #materiais-selecionados-container {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f5f5f5;
+      border-radius: 5px;
+      display: none;
+    }
+    #materiais-selecionados-container.visible {
+      display: block;
+    }
+    .material-tag {
+      display: inline-block;
+      background: #2e7d32;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 15px;
+      margin: 3px;
+      font-size: 0.9em;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="mapa.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1>Agendar Coleta</h1>
+    </header>
+    
+    <div class="content">
+      <form id="agendamentoForm">
+        <!-- Materiais -->
+        <div class="section">
+          <div class="section-title">
+            <i class="fas fa-trash-alt"></i>
+            <span>O que você quer descartar?</span>
+          </div>
+          
+          <div class="material-grid" id="materiais-container">
+            <div class="material-item" data-material="papel">
+              <div class="material-icon"><i class="fas fa-file-alt"></i></div>
+              <div class="material-name">Papel</div>
+            </div>
+            <div class="material-item" data-material="plastico">
+              <div class="material-icon"><i class="fas fa-water-bottle"></i></div>
+              <div class="material-name">Plástico</div>
+            </div>
+            <div class="material-item" data-material="vidro">
+              <div class="material-icon"><i class="fas fa-glass-whiskey"></i></div>
+              <div class="material-name">Vidro</div>
+            </div>
+            <div class="material-item" data-material="metal">
+              <div class="material-icon"><i class="fas fa-cube"></i></div>
+              <div class="material-name">Metal</div>
+            </div>
+            <div class="material-item" data-material="eletronicos">
+              <div class="material-icon"><i class="fas fa-plug"></i></div>
+              <div class="material-name">Eletrônicos</div>
+            </div>
+            <div class="material-item" data-material="organico">
+              <div class="material-icon"><i class="fas fa-leaf"></i></div>
+              <div class="material-name">Orgânico</div>
+            </div>
+          </div>
+          
+          <div id="materiais-selecionados-container">
+            <strong>Materiais selecionados:</strong>
+            <div id="materiais-selecionados-lista"></div>
+          </div>
+          <input type="hidden" id="materiais-selecionados" name="materiais">
+        </div>
+
+        <!-- Data e Hora -->
+        <div class="section">
+          <div class="section-title">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Quando quer descartar?</span>
+          </div>
+          <div class="date-picker">
+            <input type="date" id="data-coleta" name="data_coleta" required>
+            <input type="time" id="hora-coleta" name="hora_coleta" required>
+          </div>
+        </div>
+
+        <!-- Endereço -->
+        <div class="section address-section">
+          <div class="section-title">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Onde vamos coletar?</span>
+          </div>
+          <div class="address-info">
+            <p><strong>Endereço selecionado:</strong></p>
+            <p id="selected-address">Rua Exemplo, 123 - Recife</p>
+            <input type="hidden" id="endereco" name="endereco" value="Rua Exemplo, 123 - Recife">
+            <a href="mapa.html" style="color: #2e7d32; text-decoration: underline; display: inline-block; margin-top: 10px;">Alterar local</a>
+          </div>
+        </div>
+
+        <div class="loading" id="loading-indicator">
+          <i class="fas fa-spinner fa-spin"></i> Agendando coleta...
+        </div>
+
+        <button type="submit" class="btn" id="agendar-btn">Agendar Coleta</button>
+      </form>
+    </div>
+
+    <!-- Nav -->
+    <nav class="bottom-navbar">
+      <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="mapa.html" class="nav-item"><i class="fas fa-map"></i><span>Mapa</span></a>
+      <a href="busca.html" class="nav-item"><i class="fas fa-search"></i><span>Busca</span></a>
+      <a href="coleta.html" class="nav-item active"><i class="fas fa-recycle"></i><span>Reciclagem</span></a>
+      <a href="agenda.html" class="nav-item"><i class="fas fa-calendar"></i><span>Agenda</span></a>
+    </nav>
+  </div>
+
+  <script src="coleta-client.js"></script>
+</body>
+</html>

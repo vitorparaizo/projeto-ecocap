@@ -6,7 +6,6 @@
     <title>Recicla+ - Mapa de Coleta</title>
     <link rel="stylesheet" href="css/mapa-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
@@ -66,23 +65,22 @@
         </nav>
     </div>
 
-    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Inicialização do mapa quando o DOM estiver carregado
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Coordenadas do centro de Recife
+
             const recifeCenter = [-8.0522, -34.9286];
             
-            // Inicializa o mapa centralizado em Recife
+
             const map = L.map('map').setView(recifeCenter, 13);
             
-            // Adiciona o mapa base do OpenStreetMap
+
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
             
-            // Locais de coleta em Recife
+
             const locations = [
                 {
                     name: "COMPAZ GOVERNADOR EDUARDO CAMPOS",
@@ -95,15 +93,18 @@
                     coords: [-8.0529, -34.9234]
                 }
             ];
-            
-            // Adiciona marcadores para cada local
+
+
             locations.forEach(loc => {
                 L.marker(loc.coords)
                     .addTo(map)
                     .bindPopup(`<b>${loc.name}</b><br>${loc.address}`);
             });
+
+            localStorage.setItem('endereco', 'Rua Exemplo, 123 - Recife');
+            localStorage.setItem('ponto_coleta', 'Ponto X');
+
             
-            // Quando clicar em um checkbox, centraliza no local
             document.getElementById('location1').addEventListener('change', function() {
                 if(this.checked) map.setView(locations[0].coords, 15);
             });

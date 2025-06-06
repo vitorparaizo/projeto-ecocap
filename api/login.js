@@ -15,14 +15,25 @@ export default async function login(req, res) {
     return res.status(400).json({ error: 'Email and password required' });
   }
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
 
-  if (error) {
-    return res.status(401).json({ error: error.message });
+    if (error) {
+      return res.status(401).json({ error: error.message });
+    }
+
+    return res.status(200).json({
+      message: 'Login successful',
+      session: data.session,
+      user: {
+        id: data.user.id,
+        email: data.user.email
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ error: 'Internal server error' });
   }
-
-  return res.status(200).json({ message: 'Login successful', session: data.session, user: data.user });
 }
