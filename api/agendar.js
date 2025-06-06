@@ -1,93 +1,83 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Supabase URL e Key devem ser configurados');
+  console.error('Erro: Supabase URL e/ou Key não configurados!');
+  throw new Error('Configuração do Supabase incompleta');
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Método não permitido' });
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ 
+      error: 'Método não permitido',
+      allowed_methods: ['POST']
+    });
   }
 
-  const { email, endereco, data_coleta, hora_coleta, materiais } = req.body;
+  const { endereco, data_coleta, hora_coleta, materiais } = req.body;
 
-  // Validação dos dados
-  if (!email || !endereco || !data_coleta || !hora_coleta || !materiais) {
+  // Recuperar o usuário autenticado
+  const { data: { user }, error: userError } = await supabase.auth.getUser(req.headers.authorization);
+
+  if (userError || !user) {
+    return res.status(401).json({ 
+      error: 'Usuário não autenticado ou token inválido',
+      details: userError?.message
+    });
+  }
+
+  if (!endereco || !data_coleta || !hora_coleta || !materiais) {
     return res.status(400).json({ 
       error: 'Dados incompletos',
-      details: {
-        email: !email,
-        endereco: !endereco,
-        data_coleta: !data_coleta,
-        hora_coleta: !hora_coleta,
-        materiais: !materiais
-      }
+      required_fields: {
+        endereco: 'string (obrigatório)',
+        data_coleta: 'string (formato YYYY-MM-DD)',
+        hora_coleta: 'string (formato HH:MM)',
+        materiais: 'array ou string separada por vírgulas'
+      },
+      received: req.body
     });
   }
 
   try {
-    // 1. Buscar usuário pelo e-mail
-    const { data: usuario, error: erroUsuario } = await supabase
-      .from('usuarios')
-      .select('id')
-      .eq('email', email)
-      .single();
+    const agendamentoData = {
+      usuario_id: user.id,
+      endereco: endereco,
+      data_coleta: new Date(data_coleta).toISOString().split('T')[0],
+      hora_coleta: hora_coleta,
+      materiais: Array.isArray(materiais) ? materiais : materiais.split(','),
+      status: 'pendente',
+      ponto_coleta: 'A definir',
+      data_criacao: new Date().toISOString(),
+      data_atualizacao: new Date().toISOString()
+    };
 
-    if (erroUsuario || !usuario) {
-      console.error('Erro ao buscar usuário:', erroUsuario);
-      return res.status(404).json({ 
-        error: 'Usuário não encontrado',
-        email_enviado: email
-      });
-    }
-
-    const usuario_id = usuario.id;
-
-    // 2. Validar formato da data
-    const dataColetaObj = new Date(data_coleta);
-    if (isNaN(dataColetaObj.getTime())) {
-      return res.status(400).json({ 
-        error: 'Formato de data inválido',
-        data_recebida: data_coleta,
-        formato_esperado: 'YYYY-MM-DD'
-      });
-    }
-
-    // 3. Criar o agendamento
-    const { data, error } = await supabase
+    const { data: insertedData, error: insertError } = await supabase
       .from('agendamentos_coleta')
-      .insert([{
-        usuario_id,
-        endereco,
-        data_coleta: dataColetaObj.toISOString(),
-        hora_coleta,
-        materiais: Array.isArray(materiais) ? materiais : materiais.split(','),
-        status: 'pendente',
-        criado_em: new Date().toISOString()
-      }])
+      .insert([agendamentoData])
       .select();
 
-    if (error) {
-      console.error('Erro ao criar agendamento:', error);
+    if (insertError) {
+      console.error('Erro ao inserir agendamento:', insertError);
       return res.status(500).json({ 
-        error: 'Erro ao salvar agendamento',
-        details: error.message
+        error: 'Erro ao criar agendamento',
+        details: insertError.message
       });
     }
 
-    return res.status(200).json({ 
+    return res.status(201).json({ 
+      success: true,
       message: 'Agendamento criado com sucesso!',
-      data: data[0],
-      agendamento_id: data[0].id
+      agendamento: insertedData[0]
     });
 
   } catch (err) {
-    console.error('Erro no servidor:', err);
+    console.error('Erro geral no servidor:', err);
     return res.status(500).json({ 
       error: 'Erro interno no servidor',
       details: err.message

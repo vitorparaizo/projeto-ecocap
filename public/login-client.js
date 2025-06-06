@@ -1,31 +1,67 @@
-document.querySelector('.login-form').addEventListener('submit', async function (e) {
+// document.querySelector('.login-form').addEventListener('submit', async function(e) {
+//   e.preventDefault();
+
+//   const email = document.getElementById('email').value.trim();
+//   const password = document.getElementById('password').value;
+
+//   try {
+//     const response = await fetch('/api/login', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({ email, password })
+//     });
+
+//     const result = await response.json();
+
+//     if (response.ok) {
+//       // Armazena todos os dados de sessão
+//       localStorage.setItem('auth_token', result.session.access_token);
+//       localStorage.setItem('user_email', result.user.email);
+//       localStorage.setItem('user_id', result.user.id);
+      
+//       // Atualiza o estado de login imediatamente
+//       sessionStorage.setItem('is_logged_in', 'true');
+      
+//       alert('Login realizado com sucesso!');
+//       window.location.href = 'mapa.html';
+//     } else {
+//       alert('Erro: ' + (result.error || 'Credenciais inválidas'));
+//     }
+//   } catch (error) {
+//     alert('Erro na conexão: ' + error.message);
+//   }
+// });
+
+document.querySelector('.login-form').addEventListener('submit', async function(e) {
   e.preventDefault();
 
-  const email = document.querySelector('#email').value.trim();
-  const password = document.querySelector('#password').value;
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
 
   try {
     const response = await fetch('/api/login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
 
     const result = await response.json();
 
     if (response.ok) {
-      if (result.user && result.user.id) {
-        localStorage.setItem('usuario_id', result.user.id);
-      }
-
+      // Armazena todos os dados de sessão
+      localStorage.setItem('auth_token', result.session.access_token);
+      localStorage.setItem('user_email', result.user.email);
+      localStorage.setItem('user_id', result.user.id);
+      
+      // Atualiza o estado de login imediatamente
+      sessionStorage.setItem('is_logged_in', 'true');
+      
       alert('Login realizado com sucesso!');
       window.location.href = 'mapa.html';
     } else {
-      alert('Erro: ' + result.error);
+      alert('Erro: ' + (result.error || 'Credenciais inválidas'));
     }
   } catch (error) {
-    alert('Erro na requisição: ' + error.message);
+    alert('Erro na conexão: ' + error.message);
   }
 });

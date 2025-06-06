@@ -1,22 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializa materiais selecionados
+  // Verificação inicial de login
+  if (!isUsuarioLogado()) {
+    alert('Por favor, faça login para agendar uma coleta.');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Elementos da página
   const materiaisSelecionados = new Set();
   const materiaisInput = document.getElementById('materiais-selecionados');
   const form = document.getElementById('agendamentoForm');
   const loadingIndicator = document.getElementById('loading-indicator');
   const agendarBtn = document.getElementById('agendar-btn');
 
-  // Função para obter usuário logado
-  function getUsuarioLogado() {
-    // Implementação de exemplo - substitua pela sua lógica de autenticação
-    const usuario = {
-      email: localStorage.getItem('userEmail') || 'usuario@exemplo.com',
-      id: localStorage.getItem('userId') || '1'
-    };
-    return usuario;
+  // Funções de controle de usuário
+  function isUsuarioLogado() {
+    return localStorage.getItem('auth_token') && 
+           localStorage.getItem('user_email') && 
+           sessionStorage.getItem('is_logged_in') === 'true';
   }
 
-  // Atualiza a exibição dos materiais selecionados
+  function getUsuarioLogado() {
+    if (!isUsuarioLogado()) {
+      window.location.href = 'login.html';
+      return null;
+    }
+    
+    return {
+      email: localStorage.getItem('user_email'),
+      id: localStorage.getItem('user_id')
+    };
+  }
+
+  // Controle de materiais selecionados
   function atualizarMateriaisSelecionados() {
     const container = document.getElementById('materiais-selecionados-container');
     const lista = document.getElementById('materiais-selecionados-lista');
@@ -25,15 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
       lista.innerHTML = Array.from(materiaisSelecionados).map(m => 
         `<span class="material-tag">${formatarNomeMaterial(m)}</span>`
       ).join('');
-      container.classList.add('visible');
+      container.style.display = 'block';
       materiaisInput.value = Array.from(materiaisSelecionados).join(',');
     } else {
-      container.classList.remove('visible');
+      container.style.display = 'none';
       materiaisInput.value = '';
     }
   }
 
-  // Formata o nome do material para exibição
   function formatarNomeMaterial(material) {
     const materiais = {
       'papel': 'Papel',
@@ -46,68 +61,68 @@ document.addEventListener('DOMContentLoaded', () => {
     return materiais[material] || material;
   }
 
-  // Formata a data para o padrão do backend (YYYY-MM-DD)
-  function formatarDataParaBackend(dataString) {
-    if (!dataString) return '';
-    // Converte de YYYY-MM-DD (formato do input date) para o formato do backend
-    return dataString; // Já está no formato correto
-  }
-
-  // Adiciona evento de clique nos materiais
+  // Eventos de seleção de materiais
   document.querySelectorAll('.material-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const material = item.getAttribute('data-material');
+    item.addEventListener('click', function() {
+      const material = this.getAttribute('data-material');
       
       if (materiaisSelecionados.has(material)) {
         materiaisSelecionados.delete(material);
-        item.classList.remove('selected');
+        this.classList.remove('selected');
       } else {
         materiaisSelecionados.add(material);
-        item.classList.add('selected');
+        this.classList.add('selected');
       }
       
       atualizarMateriaisSelecionados();
     });
   });
 
-  // Carrega endereço salvo (se existir)
+  // Carregar endereço salvo
   function carregarEnderecoSalvo() {
     const enderecoSalvo = localStorage.getItem('enderecoSelecionado');
     if (enderecoSalvo) {
-      document.getElementById('selected-address').textContent = enderecoSalvo;
-      document.getElementById('endereco').value = enderecoSalvo;
+      const enderecoElement = document.getElementById('selected-address');
+      const enderecoInput = document.getElementById('endereco');
+      
+      if (enderecoElement) enderecoElement.textContent = enderecoSalvo;
+      if (enderecoInput) enderecoInput.value = enderecoSalvo;
     }
   }
 
-  // Form submission
+  // Envio do formulário
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const usuario = getUsuarioLogado();
-    if (!usuario || !usuario.email) {
-      alert('Por favor, faça login antes de agendar uma coleta.');
-      window.location.href = 'login.html';
-      return;
-    }
+    if (!usuario) return;
 
-    // Valida se pelo menos um material foi selecionado
+    // Validação
     if (materiaisSelecionados.size === 0) {
       alert('Por favor, selecione pelo menos um material para descarte.');
       return;
     }
 
-    // Mostra loading
+    const endereco = document.getElementById('endereco').value;
+    const dataColeta = document.getElementById('data_coleta').value;
+    const horaColeta = document.getElementById('hora_coleta').value;
+
+    if (!endereco || !dataColeta || !horaColeta) {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+
+    // Mostrar loading
     loadingIndicator.style.display = 'block';
     agendarBtn.disabled = true;
 
     try {
-      const formData = new FormData(form);
       const payload = {
         email: usuario.email,
-        endereco: formData.get('endereco'),
-        data_coleta: formatarDataParaBackend(formData.get('data_coleta')),
-        hora_coleta: formData.get('hora_coleta'),
-        materiais: formData.get('materiais')
+        endereco: endereco,
+        data_coleta: dataColeta,
+        hora_coleta: horaColeta,
+        materiais: Array.from(materiaisSelecionados)
       };
 
       const response = await fetch('/api/agendar', {
@@ -120,26 +135,26 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (response.ok) {
         alert('Coleta agendada com sucesso!');
-        // Limpa seleção
+        // Resetar formulário
+        materiaisSelecionados.clear();
         document.querySelectorAll('.material-item').forEach(item => {
           item.classList.remove('selected');
         });
-        materiaisSelecionados.clear();
         atualizarMateriaisSelecionados();
         form.reset();
       } else {
-        console.error('Erro no agendamento:', result);
-        alert(`Erro: ${result.error || 'Falha ao agendar coleta'}`);
+        throw new Error(result.error || 'Falha ao agendar coleta');
       }
     } catch (err) {
-      console.error('Erro na requisição:', err);
-      alert('Erro ao conectar com o servidor. Por favor, tente novamente.');
+      console.error('Erro:', err);
+      alert(`Erro: ${err.message}`);
     } finally {
       loadingIndicator.style.display = 'none';
       agendarBtn.disabled = false;
     }
   });
 
-  // Inicializa a página
+  // Inicialização
   carregarEnderecoSalvo();
+  atualizarMateriaisSelecionados();
 });
