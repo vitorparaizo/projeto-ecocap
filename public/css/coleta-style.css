@@ -1,4 +1,3 @@
-/* Estilos gerais */
 .container {
   max-width: 100%;
   margin: 0 auto;
@@ -27,7 +26,7 @@ h1 {
   margin: 0;
 }
 
-/* Seções */
+
 .section {
   background: white;
   border-radius: 10px;
@@ -49,7 +48,7 @@ h1 {
   font-size: 1.2em;
 }
 
-/* Grid de materiais */
+
 .material-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -82,7 +81,7 @@ h1 {
   text-align: center;
 }
 
-/* Date picker */
+
 .date-picker {
   display: flex;
   gap: 10px;
@@ -96,7 +95,7 @@ h1 {
   font-size: 1em;
 }
 
-/* Endereço */
+
 .address-info {
   padding: 10px 0;
 }
@@ -105,7 +104,7 @@ h1 {
   margin: 5px 0;
 }
 
-/* Botão */
+
 .btn {
   width: 100%;
   padding: 15px;
@@ -128,7 +127,7 @@ h1 {
   cursor: not-allowed;
 }
 
-/* Navbar inferior */
+
 .bottom-navbar {
   position: fixed;
   bottom: 0;
@@ -159,39 +158,7 @@ h1 {
   color: #2e7d32;
 }
 
-/* Estilo para o item de material normal */
-.material-item {
-    border: 2px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
 
-.material-item:hover {
-    border-color: #2e7d32;
-    transform: translateY(-2px);
-}
-
-/* --- CÓDIGO IMPORTANTE ABAIXO --- */
-/* Estilo para o item de material QUANDO ESTÁ SELECIONADO */
-.material-item.selected {
-    background-color: #e8f5e9; /* Fundo verde claro */
-    border-color: #2e7d32;     /* Borda verde escura */
-    color: #1b5e20;            /* Texto verde escuro */
-    font-weight: bold;
-    transform: scale(1.05);      /* Efeito de zoom leve */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.material-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 10px;
-}
-
-/* Responsividade */
 @media (max-width: 400px) {
   .material-grid {
     grid-template-columns: repeat(2, 1fr);

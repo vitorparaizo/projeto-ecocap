@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   const authToken = localStorage.getItem('auth_token');
 
-  if (!authToken || sessionStorage.getItem('is_logged_in') !== 'true') {
+
+  if (!authToken) {
     alert('Por favor, faça login para agendar uma coleta.');
-    window.location.href = 'login.html';
+    window.location.href = 'telaLogin.html';
     return;
   }
 
@@ -12,26 +13,45 @@ document.addEventListener('DOMContentLoaded', () => {
   const agendarBtn = document.getElementById('agendar-btn');
   const materiaisSelecionados = new Set();
 
+  /**
+   * Define a data mínima para o input de data como sendo hoje.
+   * Impede que o usuário selecione datas passadas.
+   */
+  function configurarDataMinima() {
+    const dataInput = document.getElementById('data_coleta');
+    if (dataInput) {
+      const hoje = new Date();
+      const timezoneOffset = hoje.getTimezoneOffset() * 60000; // Offset em milissegundos
+      const dataLocal = new Date(hoje.getTime() - timezoneOffset);
+      const dataParaInput = dataLocal.toISOString().split('T')[0];
+      dataInput.min = dataParaInput;
+    }
+  }
+
+  /**
+   * Carrega o endereço salvo no localStorage e exibe na página.
+   */
   function carregarEnderecoSalvo() {
     const enderecoSalvo = localStorage.getItem('enderecoSelecionado');
     const enderecoElement = document.getElementById('selected-address');
     const enderecoInput = document.getElementById('endereco');
 
     if (enderecoSalvo && enderecoElement && enderecoInput) {
-        enderecoElement.textContent = enderecoSalvo;
-        enderecoInput.value = enderecoSalvo;
+      enderecoElement.textContent = enderecoSalvo;
+      enderecoInput.value = enderecoSalvo;
     } else if (enderecoElement) {
-        enderecoElement.innerHTML = 'Nenhum endereço selecionado. <br>Por favor, <a href="mapa.html" style="color: #2e7d32; font-weight: bold;">selecione um local no mapa</a>.';
-        if (enderecoInput) enderecoInput.value = '';
+      enderecoElement.innerHTML = 'Nenhum endereço selecionado. <br>Por favor, <a href="mapa.html" style="color: #2e7d32; font-weight: bold;">selecione um local no mapa</a>.';
+      if (enderecoInput) enderecoInput.value = '';
     }
   }
 
+  // Adiciona o evento de clique para os itens de material
   document.querySelectorAll('.material-item').forEach(item => {
     item.addEventListener('click', function() {
       const material = this.getAttribute('data-material');
       if (materiaisSelecionados.has(material)) {
         materiaisSelecionados.delete(material);
-        this.classList.remove('selected'); // Adicione uma classe .selected no seu CSS para feedback visual
+        this.classList.remove('selected');
       } else {
         materiaisSelecionados.add(material);
         this.classList.add('selected');
@@ -39,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Adiciona o evento de submit para o formulário
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -49,8 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const endereco = document.getElementById('endereco').value;
     if (!endereco) {
-        alert('Por favor, selecione um endereço de coleta no mapa.');
-        return;
+      alert('Por favor, selecione um endereço de coleta no mapa.');
+      return;
     }
 
     const dataColeta = document.getElementById('data_coleta').value;
@@ -88,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         form.reset();
         document.querySelectorAll('.material-item').forEach(item => item.classList.remove('selected'));
         materiaisSelecionados.clear();
-        carregarEnderecoSalvo();
+        carregarEnderecoSalvo(); // Atualiza a exibição do endereço
       } else {
         throw new Error(result.error || result.details || 'Falha ao agendar coleta');
       }
@@ -101,5 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Funções que rodam assim que a página carrega
   carregarEnderecoSalvo();
+  configurarDataMinima();
 });

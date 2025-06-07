@@ -3,68 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recicla+ - Dashboard</title>
-    <link rel="stylesheet" href="home-style.css">
+    <title>Recicla+ - Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/home-style.css">
 </head>
 <body>
-    <div class="dashboard-container">
-        <header class="header">
-            <h1>Olá, Maria!</h1>
+    <div class="container">
+        <header class="home-header">
+            <h1>Bem-vindo ao <span class="logo-text">ecocap</span></h1>
+            <p>Seu guia completo para um mundo mais sustentável.</p>
         </header>
+        
+        <main class="content">
+            <section class="info-cards">
 
-        <main class="main-content">
-            <div class="next-donation">
-                <p>A sua próxima doação será em <strong>15/03 - 18h</strong></p>
-                <button class="location-button">Ver local</button>
-            </div>
+                <!-- Card 1: Separação -->
+                <div class="card">
+                    <img src="https://placehold.co/600x400/2E7D32/FFFFFF?text=Lixeiras+Coloridas" alt="Lixeiras de coleta seletiva coloridas" class="card-img">
+                    <div class="card-body">
+                        <h2 class="card-title">Separe o Lixo Corretamente</h2>
+                        <p class="card-text">O primeiro passo para a reciclagem é separar os resíduos secos (papel, plástico, metal, vidro) dos resíduos orgânicos. Facilita todo o processo!</p>
+                    </div>
+                </div>
 
-            <div class="quick-actions">
-                <div class="action-card">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <p>Veja pontos de coleta</p>
+                <!-- Card 2: Encontrar Pontos -->
+                <div class="card">
+                    <img src="https://placehold.co/600x400/03A9F4/FFFFFF?text=Mapa+com+Pin" alt="Mapa com um pino de localização" class="card-img">
+                    <div class="card-body">
+                        <h2 class="card-title">Encontre Pontos de Coleta</h2>
+                        <p class="card-text">Não sabe onde descartar? Use nosso mapa interativo para encontrar o ponto de coleta mais próximo de você.</p>
+                        <a href="/mapa" class="card-link">Ver no Mapa</a>
+                    </div>
                 </div>
-                <div class="action-card">
-                    <i class="fas fa-users"></i>
-                    <p>Encontrar coletores</p>
-                </div>
-                <div class="action-card">
-                    <i class="fas fa-recycle"></i>
-                    <p>O que posso reciclar</p>
-                </div>
-                <div class="action-card">
-                    <i class="fas fa-calendar-alt"></i>
-                    <p>Coletas agendadas</p>
-                </div>
-            </div>
 
-            <div class="schedule-collection">
-                <h3>Agende sua coleta em domicílio:</h3>
-                <button class="map-button">Ir para o mapa</button>
-            </div>
+                 <!-- Card 3: O que reciclar -->
+                 <div class="card">
+                    <img src="https://placehold.co/600x400/FFC107/333333?text=Materiais+Recicláveis" alt="Garrafas de plástico, vidro, papel e latas de metal" class="card-img">
+                    <div class="card-body">
+                        <h2 class="card-title">O que Pode ser Reciclado?</h2>
+                        <p class="card-text">Garrafas PET, embalagens de vidro, latas de alumínio e jornais são apenas o começo. Conheça a variedade de materiais que ganham vida nova.</p>
+                    </div>
+                </div>
+
+            </section>
         </main>
 
         <nav class="bottom-navbar">
-            <a href="#" class="nav-item active">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-map"></i>
-                <span>Mapa</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-search"></i>
-                <span>Busca</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-recycle"></i>
-                <span>Reciclagem</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-calendar"></i>
-                <span>Agenda</span>
-            </a>
+            <a href="home.html" class="nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="mapa.html" class="nav-item"><i class="fas fa-map"></i><span>Mapa</span></a>
+            <a href= busca.html" class="nav-item"><i class="fas fa-search"></i><span>Busca</span></a>
+            <a href="coleta.html" class="nav-item"><i class="fas fa-recycle"></i><span>Reciclagem</span></a>
+            <a href="agenda.html" class="nav-item"><i class="fas fa-calendar"></i><span>Agenda</span></a>
         </nav>
     </div>
 </body>

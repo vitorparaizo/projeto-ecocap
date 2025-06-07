@@ -1,8 +1,8 @@
-/* --- GERAL E FONTES --- */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
-    --primary-color: #2E7D32; /* Verde para o tema "Recicla+" */
+    --primary-color: #2E7D32; 
     --primary-dark: #1B5E20;
     --light-gray: #f4f4f4;
     --medium-gray: #ccc;
@@ -22,11 +22,11 @@ body, html {
     font-family: 'Poppins', sans-serif;
     height: 100%;
     width: 100%;
-    overflow: hidden; /* Evita a rolagem do corpo da página */
+    overflow: hidden; 
     background-color: var(--light-gray);
 }
 
-/* --- CONTAINER PRINCIPAL --- */
+
 .map-container {
     position: relative;
     width: 100vw;
@@ -35,17 +35,17 @@ body, html {
     flex-direction: column;
 }
 
-/* --- MAPA LEAFLET --- */
+
 #map {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Fica atrás de tudo */
+    z-index: 1;
 }
 
-/* --- CABEÇALHO SOBRE O MAPA (VISÍVEL APENAS NO MÓVEL) --- */
+
 .map-header {
     position: absolute;
     top: 0;
@@ -53,7 +53,7 @@ body, html {
     width: 100%;
     z-index: 10;
     padding: 20px 20px 40px;
-    padding-top: calc(20px + env(safe-area-inset-top)); /* Espaçamento para notch do iPhone */
+    padding-top: calc(20px + env(safe-area-inset-top)); 
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
     color: white;
     text-align: center;
@@ -69,29 +69,29 @@ body, html {
     opacity: 0.8;
 }
 
-/* --- PAINEL DE LOCAIS (DESIGN MÓVEL) --- */
+
 .locations-panel {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 999; /* Acima do mapa, abaixo da navbar */
+    z-index: 999;
     background-color: var(--background-color);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     box-shadow: var(--shadow);
-    height: 55%; /* Altura inicial do painel */
-    max-height: calc(100vh - 80px); /* Não pode cobrir o cabeçalho superior */
+    height: 55%; 
+    max-height: calc(100vh - 80px); 
     display: flex;
     flex-direction: column;
     transition: height 0.3s ease-in-out;
-    padding-bottom: 70px; /* Espaço para a navbar não cobrir o conteúdo */
+    padding-bottom: 70px; 
 }
 
 .panel-header {
     padding: 15px 20px;
     border-bottom: 1px solid var(--light-gray);
-    cursor: grab; /* Indica que pode ser arrastado */
+    cursor: grab; 
 }
 
 .panel-header h2 {
@@ -100,14 +100,14 @@ body, html {
     color: var(--text-color);
 }
 
-/* --- LISTA DE LOCAIS --- */
+
 .location-list {
     flex-grow: 1;
     overflow-y: auto;
     padding: 10px 20px;
 }
 
-/* Estilização da barra de rolagem (opcional, mas elegante) */
+
 .location-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -120,7 +120,7 @@ body, html {
 }
 
 
-/* --- ITENS DA LISTA (CRIADOS DINAMICAMENTE) --- */
+
 .location-item-dynamic {
     display: flex;
     justify-content: space-between;
@@ -152,7 +152,7 @@ body, html {
 
 .location-details p i.fas {
     color: var(--primary-color);
-    width: 15px; /* Alinha os ícones */
+    width: 15px; 
     text-align: center;
 }
 
@@ -166,7 +166,7 @@ body, html {
     font-weight: 500;
     cursor: pointer;
     text-align: center;
-    white-space: nowrap; /* Evita que o texto quebre */
+    white-space: nowrap; 
     transition: background-color 0.2s ease;
 }
 
@@ -181,7 +181,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 70px;
-    z-index: 1000; /* Fica sobre tudo */
+    z-index: 1000; 
     background-color: var(--background-color);
     box-shadow: var(--shadow);
     display: flex;
@@ -223,48 +223,48 @@ body, html {
 
     /* --- LAYOUT GERAL --- */
     .map-container {
-        flex-direction: row; /* Muda a direção para lado a lado */
+        flex-direction: row; 
     }
 
-    /* O cabeçalho flutuante não é necessário no desktop */
+    
     .map-header {
         display: none;
     }
 
-    /* A barra de navegação inferior não é necessária no desktop */
+
     .bottom-navbar {
         display: none;
     }
 
     /* --- MAPA --- */
     #map {
-        position: relative; /* Volta ao fluxo normal do flexbox */
-        flex: 1; /* Ocupa o espaço restante */
+        position: relative;
+        flex: 1; 
         height: 100vh;
     }
 
     /* --- PAINEL DE LOCAIS (AGORA UMA BARRA LATERAL) --- */
     .locations-panel {
-        position: relative; /* Volta ao fluxo normal */
-        width: 380px; /* Largura fixa para a barra lateral */
+        position: relative; 
+        width: 380px; 
         height: 100vh;
         max-height: 100vh;
-        flex-shrink: 0; /* Impede que a barra lateral encolha */
+        flex-shrink: 0; 
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-        border-left: 1px solid var(--light-gray); /* Adiciona uma borda sutil */
-        box-shadow: none; /* Remove a sombra inferior */
-        padding-bottom: 0; /* Remove o padding extra */
-        order: 1; /* Coloca a lista à esquerda */
+        border-left: 1px solid var(--light-gray); 
+        box-shadow: none; 
+        padding-bottom: 0; 
+        order: 1; 
     }
     
-    /* Move o mapa para a direita da lista */
+    
     #map {
         order: 2;
     }
 
     .panel-header {
-        cursor: default; /* Não é mais 'arrastável' */
+        cursor: default; 
     }
 
     .panel-header h2 {
@@ -274,6 +274,6 @@ body, html {
 
 @media (min-width: 1024px) {
     .locations-panel {
-        width: 420px; /* Um pouco mais de espaço em telas maiores */
+        width: 420px; 
     }
 }

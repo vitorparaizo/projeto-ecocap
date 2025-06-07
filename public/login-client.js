@@ -22,7 +22,7 @@ document.querySelector('.login-form').addEventListener('submit', async function(
       sessionStorage.setItem('is_logged_in', 'true');
       
       alert('Login realizado com sucesso!');
-      window.location.href = 'mapa.html';
+      window.location.href = 'home.html';
     } else {
       alert('Erro: ' + (result.error || 'Credenciais inválidas'));
     }
