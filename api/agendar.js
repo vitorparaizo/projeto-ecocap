@@ -1,20 +1,16 @@
-// api/agendar.js
 import { createClient } from '@supabase/supabase-js';
-import 'dotenv/config'; // <-- MUDANÇA: Adicionado para carregar o .env
-
-// --- Bloco de Carregamento Padrão ---
-// MUDANÇA: Removido o fallback com || e o prefixo NEXT_PUBLIC_
+import 'dotenv/config'; 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 
-// Verificação de segurança para garantir que as variáveis foram carregadas
+
 if (!supabaseUrl || !supabaseKey) {
   console.error("ERRO CRÍTICO: Variáveis de ambiente do Supabase não foram carregadas!");
   throw new Error('Configuração do Supabase incompleta. Verifique o arquivo .env');
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
-// --- Fim do Bloco de Carregamento Padrão ---
+
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

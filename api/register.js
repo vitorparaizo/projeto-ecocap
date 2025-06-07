@@ -19,7 +19,7 @@ export default async function register(req, res) {
     email,
     password,
     options: {
-      emailRedirectTo: 'http://localhost:3000', // ajuste conforme sua aplicação
+      emailRedirectTo: 'http://localhost:3000', 
     }
   });
 
