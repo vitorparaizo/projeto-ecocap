@@ -1,126 +1,194 @@
-/* Reset básico */
+/* --- GERAL E FONTES --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #2E7D32; /* Verde para o tema "Recicla+" */
+    --primary-dark: #1B5E20;
+    --light-gray: #f4f4f4;
+    --medium-gray: #ccc;
+    --dark-gray: #555;
+    --text-color: #333;
+    --background-color: #ffffff;
+    --shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-    background-color: #f5f5f5;
+body, html {
+    font-family: 'Poppins', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Evita a rolagem do corpo da página */
+    background-color: var(--light-gray);
 }
 
-/* Container principal */
+/* --- CONTAINER PRINCIPAL --- */
 .map-container {
-    max-width: 100%;
-    margin: 0 auto;
-    background-color: white;
-    min-height: 100vh;
     position: relative;
-    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Cabeçalho */
+/* --- MAPA LEAFLET --- */
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Fica atrás de tudo */
+}
+
+/* --- CABEÇALHO SOBRE O MAPA (VISÍVEL APENAS NO MÓVEL) --- */
 .map-header {
-    padding: 15px;
-    background-color: #4CAF50;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    padding: 20px 20px 40px;
+    padding-top: calc(20px + env(safe-area-inset-top)); /* Espaçamento para notch do iPhone */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
     color: white;
     text-align: center;
 }
 
 .map-header h1 {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-.drag-hint {
-    font-size: 12px;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+.map-header .drag-hint {
+    font-size: 0.9rem;
+    opacity: 0.8;
 }
 
-.drag-hint i {
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-5px);}
-    60% {transform: translateY(-3px);}
-}
-
-/* Mapa */
-#map {
-    width: 100%;
-    height: 300px;
-    z-index: 100;
-}
-
-/* Painel de locais */
+/* --- PAINEL DE LOCAIS (DESIGN MÓVEL) --- */
 .locations-panel {
-    padding: 15px;
-    background-color: white;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999; /* Acima do mapa, abaixo da navbar */
+    background-color: var(--background-color);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: var(--shadow);
+    height: 55%; /* Altura inicial do painel */
+    max-height: calc(100vh - 80px); /* Não pode cobrir o cabeçalho superior */
+    display: flex;
+    flex-direction: column;
+    transition: height 0.3s ease-in-out;
+    padding-bottom: 70px; /* Espaço para a navbar não cobrir o conteúdo */
+}
+
+.panel-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--light-gray);
+    cursor: grab; /* Indica que pode ser arrastado */
 }
 
 .panel-header h2 {
-    font-size: 16px;
-    color: #555;
-    font-weight: normal;
-    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--text-color);
 }
 
-/* Lista de locais */
+/* --- LISTA DE LOCAIS --- */
 .location-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px 20px;
+}
+
+/* Estilização da barra de rolagem (opcional, mas elegante) */
+.location-list::-webkit-scrollbar {
+    width: 6px;
+}
+.location-list::-webkit-scrollbar-thumb {
+    background: var(--medium-gray);
+    border-radius: 3px;
+}
+.location-list::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-gray);
+}
+
+
+/* --- ITENS DA LISTA (CRIADOS DINAMICAMENTE) --- */
+.location-item-dynamic {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     gap: 15px;
+    padding: 15px 5px;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.location-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
-
-.location-item input[type="checkbox"] {
-    margin-top: 3px;
-    accent-color: #4CAF50;
-}
-
-.location-item label {
-    flex: 1;
+.location-details {
+    flex-grow: 1;
     cursor: pointer;
 }
 
-.location-item strong {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-    font-size: 15px;
+.location-details strong {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
 }
 
-.location-item p {
-    color: #666;
-    font-size: 13px;
+.location-details p {
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Menu inferior */
+.location-details p i.fas {
+    color: var(--primary-color);
+    width: 15px; /* Alinha os ícones */
+    text-align: center;
+}
+
+.select-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap; /* Evita que o texto quebre */
+    transition: background-color 0.2s ease;
+}
+
+.select-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+/* --- BARRA DE NAVEGAÇÃO INFERIOR --- */
 .bottom-navbar {
     position: fixed;
     bottom: 0;
     left: 0;
-    right: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000; /* Fica sobre tudo */
+    background-color: var(--background-color);
+    box-shadow: var(--shadow);
     display: flex;
     justify-content: space-around;
-    background-color: white;
-    padding: 10px 0;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    align-items: flex-start;
+    padding-top: 10px;
+    padding-bottom: env(safe-area-inset-bottom); /* Espaçamento para iPhone */
 }
 
 .nav-item {
@@ -128,15 +196,84 @@ body {
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: #666;
-    font-size: 11px;
+    color: var(--dark-gray);
+    font-size: 0.7rem;
+    transition: color 0.2s ease;
 }
 
 .nav-item i {
-    font-size: 18px;
+    font-size: 1.4rem;
     margin-bottom: 4px;
 }
 
+.nav-item:hover {
+    color: var(--primary-dark);
+}
+
 .nav-item.active {
-    color: #4CAF50;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* ========================================================= */
+/* --- MEDIA QUERIES PARA TABLET E DESKTOP (TELA DIVIDIDA) --- */
+/* ========================================================= */
+
+@media (min-width: 768px) {
+
+    /* --- LAYOUT GERAL --- */
+    .map-container {
+        flex-direction: row; /* Muda a direção para lado a lado */
+    }
+
+    /* O cabeçalho flutuante não é necessário no desktop */
+    .map-header {
+        display: none;
+    }
+
+    /* A barra de navegação inferior não é necessária no desktop */
+    .bottom-navbar {
+        display: none;
+    }
+
+    /* --- MAPA --- */
+    #map {
+        position: relative; /* Volta ao fluxo normal do flexbox */
+        flex: 1; /* Ocupa o espaço restante */
+        height: 100vh;
+    }
+
+    /* --- PAINEL DE LOCAIS (AGORA UMA BARRA LATERAL) --- */
+    .locations-panel {
+        position: relative; /* Volta ao fluxo normal */
+        width: 380px; /* Largura fixa para a barra lateral */
+        height: 100vh;
+        max-height: 100vh;
+        flex-shrink: 0; /* Impede que a barra lateral encolha */
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-left: 1px solid var(--light-gray); /* Adiciona uma borda sutil */
+        box-shadow: none; /* Remove a sombra inferior */
+        padding-bottom: 0; /* Remove o padding extra */
+        order: 1; /* Coloca a lista à esquerda */
+    }
+    
+    /* Move o mapa para a direita da lista */
+    #map {
+        order: 2;
+    }
+
+    .panel-header {
+        cursor: default; /* Não é mais 'arrastável' */
+    }
+
+    .panel-header h2 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .locations-panel {
+        width: 420px; /* Um pouco mais de espaço em telas maiores */
+    }
 }

@@ -159,6 +159,38 @@ h1 {
   color: #2e7d32;
 }
 
+/* Estilo para o item de material normal */
+.material-item {
+    border: 2px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.material-item:hover {
+    border-color: #2e7d32;
+    transform: translateY(-2px);
+}
+
+/* --- CÓDIGO IMPORTANTE ABAIXO --- */
+/* Estilo para o item de material QUANDO ESTÁ SELECIONADO */
+.material-item.selected {
+    background-color: #e8f5e9; /* Fundo verde claro */
+    border-color: #2e7d32;     /* Borda verde escura */
+    color: #1b5e20;            /* Texto verde escuro */
+    font-weight: bold;
+    transform: scale(1.05);      /* Efeito de zoom leve */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.material-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+}
+
 /* Responsividade */
 @media (max-width: 400px) {
   .material-grid {
