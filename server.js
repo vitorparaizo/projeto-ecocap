@@ -31,8 +31,7 @@ app.get('/api/pontos-coleta', pontosColeta);
 app.get('/api/catadores', catadores);
 app.get('/api/agenda', agenda);
 
-// --- ROTAS PARA SERVIR AS PÁGINAS HTML ---
-// O servidor agora é responsável por servir todas as páginas.
+
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'telaLogin.html')));
 app.get('/home', (req, res) => res.sendFile(path.join(__dirname, 'public', 'home.html')));
 app.get('/mapa', (req, res) => res.sendFile(path.join(__dirname, 'public', 'mapa.html')));
