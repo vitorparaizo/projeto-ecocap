@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recicla+ - Catadores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/catadores-style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/home" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <h1>Catadores Parceiros</h1>
+        </header>
+        
+        <main class="content">
+            <div class="page-description">
+                <p>Encontre catadores e cooperativas na sua região para garantir que seus recicláveis tenham o destino certo.</p>
+            </div>
+
+            
+            <div id="catadores-list">
+                <p class="loading-text"><i class="fas fa-spinner fa-spin"></i> Carregando catadores...</p>
+            </div>
+        </main>
+
+        <nav class="bottom-navbar">
+            <a href="/home" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="/mapa" class="nav-item"><i class="fas fa-map"></i><span>Mapa</span></a>
+            <a href="/catadores" class="nav-item active"><i class="fas fa-users"></i><span>Parceiros</span></a>
+            <a href="/coleta" class="nav-item"><i class="fas fa-recycle"></i><span>Reciclagem</span></a>
+            <a href="/agenda" class="nav-item"><i class="fas fa-calendar"></i><span>Agenda</span></a>
+        </nav>
+    </div>
+    <script src="catadores-client.js"></script>
+</body>
+</html>

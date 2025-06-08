@@ -13,10 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const agendarBtn = document.getElementById('agendar-btn');
   const materiaisSelecionados = new Set();
 
-  /**
-   * Define a data mínima para o input de data como sendo hoje.
-   * Impede que o usuário selecione datas passadas.
-   */
+
   function configurarDataMinima() {
     const dataInput = document.getElementById('data_coleta');
     if (dataInput) {
@@ -28,9 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /**
-   * Carrega o endereço salvo no localStorage e exibe na página.
-   */
+
+
   function carregarEnderecoSalvo() {
     const enderecoSalvo = localStorage.getItem('enderecoSelecionado');
     const enderecoElement = document.getElementById('selected-address');
@@ -45,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Adiciona o evento de clique para os itens de material
+
   document.querySelectorAll('.material-item').forEach(item => {
     item.addEventListener('click', function() {
       const material = this.getAttribute('data-material');
@@ -59,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Adiciona o evento de submit para o formulário
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -105,11 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (response.ok) {
         alert('Coleta agendada com sucesso!');
-        localStorage.removeItem('enderecoSelecionado'); // Limpa o endereço para o próximo agendamento
+        localStorage.removeItem('enderecoSelecionado'); 
         form.reset();
         document.querySelectorAll('.material-item').forEach(item => item.classList.remove('selected'));
         materiaisSelecionados.clear();
-        carregarEnderecoSalvo(); // Atualiza a exibição do endereço
+        carregarEnderecoSalvo();
       } else {
         throw new Error(result.error || result.details || 'Falha ao agendar coleta');
       }
@@ -122,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Funções que rodam assim que a página carrega
+
   carregarEnderecoSalvo();
   configurarDataMinima();
 });
