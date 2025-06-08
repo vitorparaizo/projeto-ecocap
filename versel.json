@@ -4,30 +4,12 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/css/(.*)",
-      "dest": "/public/css/$1"
-    },
-    {
-      "src": "/js/(.*)",
-      "dest": "/public/js/$1"
-    },
-    { "src": "/", "dest": "/public/telaLogin.html" },
-    { "src": "/home", "dest": "/public/home.html" },
-    { "src": "/mapa", "dest": "/public/mapa.html" },
-    { "src": "/coleta", "dest": "/public/coleta.html" },
-    { "src": "/catadores", "dest": "/public/catadores.html" },
-    { "src": "/agenda", "dest": "/public/agenda.html" },
-    {
-      "src": "/api/(.*)",
-      "dest": "server.js"
+      "source": "/(.*)",
+      "destination": "server.js"
     }
   ]
 }
