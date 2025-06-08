@@ -8,8 +8,36 @@
   ],
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/api/(.*)",
       "destination": "server.js"
+    },
+    {
+      "source": "/",
+      "destination": "/public/telaLogin.html"
+    },
+    {
+      "source": "/home",
+      "destination": "/public/home.html"
+    },
+    {
+      "source": "/mapa",
+      "destination": "/public/mapa.html"
+    },
+    {
+      "source": "/coleta",
+      "destination": "/public/coleta.html"
+    },
+    {
+      "source": "/catadores",
+      "destination": "/public/catadores.html"
+    },
+    {
+      "source": "/agenda",
+      "destination": "/public/agenda.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/public/$1"
     }
   ]
 }
