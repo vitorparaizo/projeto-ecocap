@@ -108,11 +108,3 @@ Este projeto está licenciado sob a Licença MIT.
 Consulte o arquivo [LICENSE](LICENSE) para mais informações.
 
 ---
-
-## 📫 Contato
-
-- 👤 Nome: *Seu Nome Aqui*
-- 📧 E-mail: *seunome@email.com*
-- 💼 GitHub: [@seunome](https://github.com/seunome)
-
----
